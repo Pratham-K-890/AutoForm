@@ -3,133 +3,355 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoForm – AI-powered Google Forms filler</title>
+  <title>AutoForm — AI-powered Google Forms filler</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/style.css">
-  <style>
-    .auth-split {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-    .auth-hero {
-      background: linear-gradient(135deg, #4285f4 0%, #1a73e8 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 60px;
-      color: #fff;
-    }
-    .hero-title  { font-size: 40px; font-weight: 800; line-height: 1.2; margin-bottom: 18px; }
-    .hero-sub    { font-size: 16px; opacity: .85; line-height: 1.7; margin-bottom: 36px; }
-    .hero-chips  { display: flex; flex-wrap: wrap; gap: 10px; }
-    .chip {
-      background: rgba(255,255,255,.18);
-      border-radius: 20px;
-      padding: 6px 16px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .auth-right {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 24px;
-    }
-    @media (max-width: 768px) {
-      .auth-split  { grid-template-columns: 1fr; }
-      .auth-hero   { display: none; }
-    }
-  </style>
 </head>
-<body id="authPage">
-  <div class="auth-split">
-    <!-- Hero panel -->
-    <div class="auth-hero">
-      <div class="hero-title">Fill any Google Form<br>with AI in seconds.</div>
-      <div class="hero-sub">
-        AutoForm scrapes the questions, detects your personal info,
-        then sends each question to an LLM council of three models.
-        The majority vote wins. You review. Playwright submits.
-      </div>
-      <div class="hero-chips">
-        <span class="chip">🤖 LLaMA 3.3 70B</span>
-        <span class="chip">🧠 Mixtral 8×7B</span>
-        <span class="chip">✨ Gemini 2.0 Flash</span>
-        <span class="chip">🔐 Google OAuth</span>
-      </div>
-      <a href="/extension.zip" download style="
-        display: inline-flex; align-items: center; gap: 10px;
-        margin-top: 32px; padding: 13px 24px;
-        background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.4);
-        border-radius: 10px; color: #fff; font-size: 14px; font-weight: 700;
-        text-decoration: none; transition: background .2s;
-      " onmouseover="this.style.background='rgba(255,255,255,0.25)'"
-         onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        Download Chrome Extension
-      </a>
+<body class="landing">
+
+<!-- ── Nav ──────────────────────────────────────────────────────────────── -->
+<nav class="lnav">
+  <div class="lnav-inner">
+    <div class="lnav-logo">Auto<span>Form</span></div>
+    <div class="lnav-links">
+      <a href="#how-it-works" class="lnav-link">How it works</a>
+      <a href="#features"     class="lnav-link">Features</a>
+      <button class="lnav-link" id="navSignInBtn">Sign in</button>
+      <button class="lnav-cta" id="navGetStartedBtn">Get started free</button>
     </div>
+  </div>
+</nav>
 
-    <!-- Auth form -->
-    <div class="auth-right">
-      <div class="card auth-card">
-        <div class="auth-logo">AutoForm</div>
-        <div class="auth-subtitle">Sign in to start filling forms automatically</div>
-
-        <div class="auth-tabs">
-          <button class="tab-btn active" data-tab="login">Login</button>
-          <button class="tab-btn" data-tab="signup">Sign up</button>
-        </div>
-
-        <div id="authError" class="auth-error"></div>
-
-        <!-- Login form -->
-        <form id="loginForm">
-          <div class="flex col gap-2">
-            <div class="form-group">
-              <label>Email</label>
-              <input class="input" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input class="input" name="password" type="password" placeholder="••••••••" required autocomplete="current-password">
-            </div>
-            <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px">
-              Login
-            </button>
-          </div>
-        </form>
-
-        <!-- Signup form -->
-        <form id="signupForm" style="display:none">
-          <div class="flex col gap-2">
-            <div class="form-group">
-              <label>Email</label>
-              <input class="input" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input class="input" name="password" type="password" placeholder="Choose a strong password" required autocomplete="new-password" minlength="6">
-            </div>
-            <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px">
-              Create account
-            </button>
-          </div>
-        </form>
-
-        <p style="text-align:center;font-size:13px;color:var(--muted);margin-top:20px">
-          Your data is stored locally and never shared.
-        </p>
+<!-- ── Hero ─────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Free · Open source · No data stored
+    </div>
+    <h1>Fill any Google Form<br>with <span>AI</span> in seconds</h1>
+    <p class="hero-sub">
+      AutoForm's Chrome extension reads your form, sends questions to a
+      council of 3 AI models, and fills every answer automatically.
+      You review — it submits.
+    </p>
+    <div class="hero-actions">
+      <a href="/extension.zip" class="btn-hero-dl" download>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download Extension
+      </a>
+      <button class="btn-hero-ghost" id="heroSignInBtn">
+        Sign in to dashboard →
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-lbl">AI models voting</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">&lt;5s</div>
+        <div class="hero-stat-lbl">Average fill time</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-lbl">Browser-based</div>
       </div>
     </div>
   </div>
 
-  <script src="/static/js/app.js"></script>
+  <!-- Animated extension popup demo -->
+  <div class="demo-wrap">
+    <div class="demo-glow"></div>
+    <div class="ext-popup">
+      <div class="ext-header">
+        <div class="ext-icon">A</div>
+        <div>
+          <div class="ext-title">AutoForm AI</div>
+          <div class="ext-sub">Chrome Extension</div>
+        </div>
+      </div>
+      <div class="ext-body">
+
+        <!-- Screen 1: Form detected -->
+        <div class="demo-screen" id="ds1">
+          <div class="ds-badge">
+            <span class="ds-pulse"></span> Google Form detected
+          </div>
+          <div class="ds-form-name">CS 101 – End of Term Survey</div>
+          <div class="ds-form-url">docs.google.com/forms/d/1FAIp…</div>
+          <div style="font-size:12px;color:#8e8e93;margin-bottom:16px">8 questions found on this page</div>
+          <button class="ds-btn">Analyze with AI →</button>
+        </div>
+
+        <!-- Screen 2: Analyzing -->
+        <div class="demo-screen hidden" id="ds2">
+          <div class="ds-analyzing">
+            <div class="ds-spinner-ring"></div>
+            <div class="ds-analyzing-txt">AI council voting…</div>
+            <div class="ds-analyzing-sub">3 models reviewing 8 questions</div>
+            <div class="ds-models">
+              <span class="ds-model-chip">LLaMA</span>
+              <span class="ds-model-chip">Mixtral</span>
+              <span class="ds-model-chip">Gemini</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 3: Results -->
+        <div class="demo-screen hidden" id="ds3">
+          <div class="ds-results-lbl">AI answers ready</div>
+          <div class="ds-answer-item">
+            <div class="ds-answer-q">How would you rate the course?</div>
+            <div class="ds-answer-a">Excellent</div>
+            <div class="ds-answer-votes">
+              <span class="ds-vote"></span><span class="ds-vote"></span><span class="ds-vote"></span>
+            </div>
+          </div>
+          <div class="ds-answer-item">
+            <div class="ds-answer-q">Would you recommend this course?</div>
+            <div class="ds-answer-a">Yes, definitely</div>
+            <div class="ds-answer-votes">
+              <span class="ds-vote"></span><span class="ds-vote"></span><span class="ds-vote miss"></span>
+            </div>
+          </div>
+          <button class="ds-fill-btn">Fill form now ✓</button>
+        </div>
+
+        <!-- Screen 4: Done -->
+        <div class="demo-screen hidden" id="ds4">
+          <div class="ds-done">
+            <div class="ds-check">✓</div>
+            <div class="ds-done-txt">Form filled!</div>
+            <div class="ds-done-sub">8 answers injected into the form.<br>Review and hit submit.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How it works ──────────────────────────────────────────────────────── -->
+<div id="how-it-works" style="background: #0d0d10; border-top: 1px solid #27272a; border-bottom: 1px solid #27272a;">
+  <div class="section" style="padding-bottom: 72px;">
+    <div class="section-eyebrow">How it works</div>
+    <div class="section-title">Three steps to a filled form</div>
+    <div class="section-sub">No config, no API keys on your end. Install the extension and go.</div>
+    <div class="steps-grid">
+      <div class="step-card-l" data-step="1">
+        <div class="step-icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <h3>Open a Google Form</h3>
+        <p>Navigate to any Google Form in Chrome. The extension automatically detects it and shows a ready indicator in your toolbar.</p>
+      </div>
+      <div class="step-card-l" data-step="2">
+        <div class="step-icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h3>Click Analyze</h3>
+        <p>The extension reads every question from the page DOM and sends them to a council of three AI models — LLaMA, Mixtral, and Gemini — which vote on each answer.</p>
+      </div>
+      <div class="step-card-l" data-step="3">
+        <div class="step-icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h3>Review &amp; Fill</h3>
+        <p>See every AI answer with confidence scores. Add your personal info for sensitive fields, then click Fill — answers are injected directly into the form.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Features ──────────────────────────────────────────────────────────── -->
+<div id="features" class="features-bg">
+  <div class="section" style="padding-bottom: 0;">
+    <div class="section-eyebrow">Features</div>
+    <div class="section-title">Everything you need</div>
+  </div>
+  <div style="max-width:1100px; margin: 0 auto; padding: 0 32px 80px;">
+    <div class="features-grid">
+      <div class="feature-cell">
+        <div class="feature-icon">🗳️</div>
+        <h4>3-Model Voting Council</h4>
+        <p>LLaMA 3.3 70B, Mixtral 8×7B, and Gemini 2.0 Flash each answer independently. Majority vote wins — tiebreak goes to LLaMA.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon">🔒</div>
+        <h4>Personal Info Protection</h4>
+        <p>Name, email, phone, and address questions are flagged automatically. The AI never guesses — you fill those in yourself.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon">⚡</div>
+        <h4>Works in Your Browser</h4>
+        <p>The extension fills the form using the real DOM — no screenshot tricks, no Playwright, no external browser launched.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon">📋</div>
+        <h4>All Question Types</h4>
+        <p>Short text, paragraph, multiple choice, checkboxes, dropdowns, date, and time — every native Google Forms type is supported.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon">🎯</div>
+        <h4>Confidence Scores</h4>
+        <p>Each answer shows how many models agreed. Full agreement is shown in green; split votes are flagged so you can review.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon">🌐</div>
+        <h4>Deployed &amp; Open Source</h4>
+        <p>Self-host it or use the live backend at autoform-7lmx.onrender.com. Full source available on GitHub.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Auth section ───────────────────────────────────────────────────────── -->
+<div id="auth-anchor"></div>
+<div class="auth-section" id="authSection" style="display:none">
+  <div class="auth-left">
+    <h2>Start filling forms<br>in seconds</h2>
+    <p>Create a free account to use the extension and access the web dashboard. Your data is stored locally and never shared.</p>
+  </div>
+  <div class="auth-card-l">
+    <div style="font-size:22px;font-weight:800;color:#f5f5f7;margin-bottom:4px;letter-spacing:-.02em;">AutoForm</div>
+    <div style="font-size:13px;color:#71717a;margin-bottom:20px;">Sign in to continue</div>
+
+    <div class="auth-tabs-l">
+      <button class="tab-btn-l active" data-tab="login">Login</button>
+      <button class="tab-btn-l" data-tab="signup">Sign up</button>
+    </div>
+
+    <div class="auth-error-l" id="authError"></div>
+
+    <form id="loginForm">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <label class="label-l">Email</label>
+          <input class="input-l" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div>
+          <label class="label-l">Password</label>
+          <input class="input-l" name="password" type="password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-submit-l">Login</button>
+      </div>
+    </form>
+
+    <form id="signupForm" style="display:none">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <label class="label-l">Email</label>
+          <input class="input-l" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div>
+          <label class="label-l">Password</label>
+          <input class="input-l" name="password" type="password" placeholder="Choose a strong password" required autocomplete="new-password" minlength="6">
+        </div>
+        <button type="submit" class="btn-submit-l">Create account</button>
+      </div>
+    </form>
+
+    <p style="text-align:center;font-size:12px;color:#52525b;margin-top:20px;">
+      Your data is stored locally and never shared.
+    </p>
+  </div>
+</div>
+
+<!-- ── Footer ────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <p>
+    AutoForm &nbsp;·&nbsp;
+    <a href="https://github.com/Pratham-K-890/AutoForm" target="_blank">GitHub</a> &nbsp;·&nbsp;
+    <a href="https://autoform-7lmx.onrender.com" target="_blank">Live demo</a>
+  </p>
+  <p style="margin-top:8px;">Built with FastAPI · LLaMA 3.3 · Mixtral · Gemini 2.0 Flash</p>
+</footer>
+
+<script>
+// ── Demo animation ────────────────────────────────────────────────────────
+const screens = ['ds1','ds2','ds3','ds4'];
+let cur = 0;
+const durations = [3000, 2500, 3500, 2500];
+
+function showScreen(idx) {
+  screens.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (i === idx) el.classList.remove('hidden');
+    else el.classList.add('hidden');
+  });
+}
+
+function nextScreen() {
+  cur = (cur + 1) % screens.length;
+  showScreen(cur);
+  setTimeout(nextScreen, durations[cur]);
+}
+
+setTimeout(nextScreen, durations[0]);
+
+// ── Auth section toggle ───────────────────────────────────────────────────
+function showAuth() {
+  const sec = document.getElementById('authSection');
+  sec.style.display = 'grid';
+  sec.scrollIntoView({ behavior: 'smooth' });
+}
+document.getElementById('navSignInBtn').addEventListener('click', showAuth);
+document.getElementById('navGetStartedBtn').addEventListener('click', showAuth);
+document.getElementById('heroSignInBtn').addEventListener('click', showAuth);
+
+// ── Auth tabs ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn-l').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn-l').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    document.getElementById('loginForm').style.display  = tab === 'login'  ? 'block' : 'none';
+    document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+    document.getElementById('authError').style.display  = 'none';
+  });
+});
+
+// ── Auth forms ────────────────────────────────────────────────────────────
+async function doAuth(endpoint, email, pass) {
+  const errEl = document.getElementById('authError');
+  errEl.style.display = 'none';
+  const res = await fetch(`/api/auth/${endpoint}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password: pass }),
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    errEl.textContent = data.detail || 'Error';
+    errEl.style.display = 'block';
+    return;
+  }
+  localStorage.setItem('autoform_token', data.access_token);
+  location.href = '/dashboard.html';
+}
+
+document.getElementById('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  doAuth('login', e.target.email.value, e.target.password.value);
+});
+document.getElementById('signupForm').addEventListener('submit', e => {
+  e.preventDefault();
+  doAuth('signup', e.target.email.value, e.target.password.value);
+});
+
+// Redirect if already logged in
+if (localStorage.getItem('autoform_token')) location.href = '/dashboard.html';
+</script>
 </body>
 </html>
