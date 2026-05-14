@@ -6,7 +6,8 @@
   "permissions": ["activeTab", "storage"],
   "host_permissions": [
     "https://docs.google.com/forms/*",
-    "http://localhost:8000/*"
+    "http://localhost:8000/*",
+    "https://autoform-7lmx.onrender.com/*"
   ],
   "background": {
     "service_worker": "background.js"
