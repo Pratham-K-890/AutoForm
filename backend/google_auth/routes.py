@@ -224,24 +224,6 @@ def google_status(
     return {"connected": True, "email": token.google_email}
 
 
-@router.post("/api/google/setup-session")
-async def google_setup_session(
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
-):
-    """Open a headed Playwright browser for one-time Google sign-in.
-    Blocks until the user completes sign-in (up to 3 min) or times out."""
-    from ..forms.autofill import setup_google_browser_session
-
-    token = db.query(GoogleToken).filter(GoogleToken.user_id == current_user.id).first()
-    google_email = token.google_email if token else None
-
-    result = await setup_google_browser_session(current_user.id, google_email)
-    if not result["success"]:
-        raise HTTPException(status_code=408, detail=result["message"])
-    return result
-
-
 @router.delete("/api/google/disconnect")
 def google_disconnect(
     current_user: User = Depends(get_current_user),
