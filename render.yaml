@@ -22,8 +22,4 @@ services:
       - key: APP_URL
         value: https://autoform-7lmx.onrender.com
       - key: DATABASE_URL
-        value: sqlite:////data/autoform.db
-    disk:
-      name: data
-      mountPath: /data
-      sizeGB: 1
+        sync: false
