@@ -2,6 +2,8 @@
 
 AI-powered Google Forms filler. Open a form, click **Analyze**, review the answers, click **Fill** — done in seconds.
 
+**Live demo:** https://autoform-7lmx.onrender.com
+
 ## How it works
 
 A Chrome extension scrapes the visible questions from the form DOM and sends them to the FastAPI backend. A council of three LLMs (LLaMA 3.3 70B, Mixtral 8×7B, Gemini 2.0 Flash) votes on answers by majority. Questions detected as personal info (name, email, phone, etc.) are surfaced for you to fill in manually. The extension then injects the answers directly into the form using React's internal event system.
