@@ -90,10 +90,15 @@ The web UI is available at `http://localhost:8000`.
 
 ### 5. Install the Chrome extension
 
-1. Open Chrome and go to `chrome://extensions`
-2. Enable **Developer mode** (top right)
-3. Click **Load unpacked** and select the `extension/` folder
-4. Open any Google Form — the AutoForm icon will appear in your toolbar
+**From the deployed app** (easiest):
+1. Visit https://autoform-7lmx.onrender.com and click **Download Chrome Extension**
+2. Unzip the downloaded file
+3. Open Chrome → `chrome://extensions` → enable **Developer mode** (top right)
+4. Click **Load unpacked** and select the unzipped folder
+
+**From source:**
+1. Open Chrome → `chrome://extensions` → enable **Developer mode**
+2. Click **Load unpacked** and select the `extension/` folder in this repo
 
 ## Usage
 

@@ -1,6 +1,8 @@
 """AutoForm – FastAPI application entry point."""
 
+import io
 import os
+import zipfile
 
 # Allow OAuth over plain HTTP for local development.
 # In production (Railway/Render) the redirect URI is HTTPS so this has no effect.
@@ -12,7 +14,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 
 from .database import init_db
 from .auth.routes import router as auth_router
@@ -71,3 +73,21 @@ def serve_index():
 @app.get("/dashboard.html", include_in_schema=False)
 def serve_dashboard():
     return FileResponse(os.path.join(FRONTEND_DIR, "dashboard.html"))
+
+
+@app.get("/extension.zip", include_in_schema=False)
+def download_extension():
+    extension_dir = os.path.join(os.path.dirname(__file__), "..", "extension")
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        for root, _, files in os.walk(extension_dir):
+            for fname in files:
+                full_path = os.path.join(root, fname)
+                arcname = os.path.relpath(full_path, extension_dir)
+                zf.write(full_path, arcname)
+    buf.seek(0)
+    return StreamingResponse(
+        buf,
+        media_type="application/zip",
+        headers={"Content-Disposition": "attachment; filename=autoform-extension.zip"},
+    )
