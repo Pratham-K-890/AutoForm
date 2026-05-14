@@ -19,7 +19,6 @@ from fastapi.responses import FileResponse, StreamingResponse
 from .database import init_db
 from .auth.routes import router as auth_router
 from .google_auth.routes import router as google_router
-from .forms.routes import router as forms_router
 from .forms.extension_routes import router as extension_router
 
 
@@ -50,7 +49,6 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(google_router)
-app.include_router(forms_router)
 app.include_router(extension_router)
 
 # ── Static files / frontend ───────────────────────────────────────────────────
