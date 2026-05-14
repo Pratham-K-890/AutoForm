@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- Header -->
+    <div class="header">
+      <span class="logo">AutoForm AI</span>
+      <span id="user-email" class="user-email" style="display:none"></span>
+      <button id="btn-logout" class="btn-icon" title="Logout" style="display:none">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Auth screen -->
+    <div id="screen-auth" class="screen">
+      <h2>Sign In</h2>
+      <input type="email" id="inp-email" placeholder="Email address" autocomplete="email" />
+      <input type="password" id="inp-password" placeholder="Password" autocomplete="current-password" />
+      <button id="btn-login" class="btn-primary">Login</button>
+      <div id="auth-error" class="error"></div>
+    </div>
+
+    <!-- Not a Google Form -->
+    <div id="screen-not-form" class="screen" style="display:none">
+      <div class="not-form-msg">
+        <div class="icon">📋</div>
+        <p>Navigate to a Google Form to start filling with AI.</p>
+      </div>
+    </div>
+
+    <!-- Ready to analyze -->
+    <div id="screen-ready" class="screen" style="display:none">
+      <p class="hint"><span class="dot"></span> Google Form detected</p>
+      <button id="btn-analyze" class="btn-primary">Analyze &amp; Fill with AI</button>
+      <button id="btn-debug" class="btn-secondary" style="margin-top:8px">Debug: Inspect DOM</button>
+    </div>
+
+    <!-- Debug report -->
+    <div id="screen-debug" class="screen" style="display:none">
+      <h2>DOM Report</h2>
+      <div id="debug-output" class="debug-output"></div>
+      <button id="btn-debug-back" class="btn-secondary" style="margin-top:12px">Back</button>
+    </div>
+
+    <!-- Loading -->
+    <div id="screen-loading" class="screen" style="display:none">
+      <div class="spinner-wrap">
+        <div class="spinner"></div>
+        <p id="loading-text">Analyzing form…</p>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="screen-results" class="screen" style="display:none">
+
+      <div id="personal-section" class="section" style="display:none">
+        <h3>Your Information Needed</h3>
+        <div id="personal-fields"></div>
+      </div>
+
+      <div id="ai-section" class="section">
+        <h3>
+          AI Answers
+          <span id="ai-count" class="count-badge"></span>
+        </h3>
+        <div id="ai-list" class="ai-list"></div>
+      </div>
+
+      <button id="btn-fill" class="btn-primary">Fill Form Now</button>
+      <button id="btn-back" class="btn-secondary">Back</button>
+      <div id="fill-error" class="error"></div>
+    </div>
+
+    <!-- Done -->
+    <div id="screen-done" class="screen" style="display:none">
+      <div class="success">✓ Form filled successfully!</div>
+      <p style="text-align:center;color:#64748b;font-size:12px;margin-top:6px">
+        Review the answers and submit when ready.
+      </p>
+      <button id="btn-fill-another" class="btn-secondary">Fill Another Form</button>
+    </div>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

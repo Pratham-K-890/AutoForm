@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: autoform
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ENCRYPTION_KEY
+        generateValue: true
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        value: https://your-app.onrender.com/google/callback
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: APP_URL
+        value: https://your-app.onrender.com
+      - key: DATABASE_URL
+        value: sqlite:////data/autoform.db
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1

@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "AutoForm AI",
+  "version": "1.0.0",
+  "description": "Fill Google Forms automatically with AI",
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": [
+    "https://docs.google.com/forms/*",
+    "http://localhost:8000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://docs.google.com/forms/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AutoForm AI"
+  }
+}
