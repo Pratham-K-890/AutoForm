@@ -333,7 +333,14 @@ async function doAuth(endpoint, email, pass) {
   });
   const data = await res.json();
   if (!res.ok) {
-    errEl.textContent = data.detail || 'Error';
+    const detail = data.detail;
+    let msg = 'An error occurred';
+    if (typeof detail === 'string') {
+      msg = detail;
+    } else if (Array.isArray(detail) && detail.length) {
+      msg = detail.map(e => (e.msg || '').replace(/^Value error,\s*/i, '')).join('; ');
+    }
+    errEl.textContent = msg;
     errEl.style.display = 'block';
     return;
   }
