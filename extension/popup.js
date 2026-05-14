@@ -1,6 +1,6 @@
 // popup.js
 
-const API = 'http://localhost:8000';
+const API = 'https://autoform-7lmx.onrender.com';
 
 // ── State ──────────────────────────────────────────────────────────────────────
 
