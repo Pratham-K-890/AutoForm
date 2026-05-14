@@ -16,7 +16,6 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from playwright.async_api import async_playwright
-from playwright_stealth import stealth_async
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -157,7 +156,6 @@ async def _process_submission(submission_id: int) -> None:
                 await _inject_google_session(context, credentials)
 
             page = await context.new_page()
-            await stealth_async(page)
 
             validation = await validate_form(page, submission.form_url)
             if not validation.ok:

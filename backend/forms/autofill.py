@@ -11,7 +11,6 @@ from pathlib import Path
 from typing import Any
 
 from playwright.async_api import async_playwright, Page, BrowserContext
-from playwright_stealth import stealth_async
 
 from ..config import settings
 
@@ -272,7 +271,6 @@ async def setup_google_browser_session(user_id: int, google_email: str | None = 
             context = await pw.chromium.launch_persistent_context(udd, **launch_kwargs)
 
         page = await context.new_page()
-        await stealth_async(page)
 
         try:
             await page.goto(
@@ -377,7 +375,6 @@ async def fill_and_submit(
             await _inject_google_session(context, credentials)
 
         page = await context.new_page()
-        await stealth_async(page)
 
         try:
             await page.goto(form_url, wait_until="networkidle", timeout=30_000)
